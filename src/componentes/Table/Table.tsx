@@ -1,6 +1,6 @@
 /** Consider using MUI DataGrid component for handling large amounts of tabular data. */
 
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,57 +8,59 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { IFormValues } from '../CreateRequest';
+import { Modal } from '../Modal';
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-) {
-    return { name, calories, fat, carbs, protein };
+interface IProps {
+    data?: IFormValues[],
 }
 
-const rows: Record<string, any>[] = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export const BasicTable: FC<IProps> = ({ data }) => {
+    const [openDetails, setOpenDetails] = useState(false);
+    const [seletedItem, setSelectedItem] = useState<IFormValues>();
 
-export const BasicTable: FC = () => {
+    const handleSelectRow = (item: IFormValues) => {
+        setSelectedItem(item);
+        setOpenDetails(true);
+    }
+
+
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.length ? rows.map((row) => (
-                        <TableRow
-                            onClick={() => alert('cl')}
-                            hover
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="request table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Invoice number</TableCell>
+                            <TableCell align="right">Part's serial number</TableCell>
+                            <TableCell align="right">Reason</TableCell>
                         </TableRow>
-                    )) : <p>You don't have any requests</p>}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {data?.length ? data.map((row) => (
+                            <TableRow
+                                onClick={() => handleSelectRow(row)}
+                                hover
+                                key={row['invoice-number']}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row['invoice-number']}
+                                </TableCell>
+                                <TableCell align="right">{row['part-serial-number']}</TableCell>
+                                <TableCell align="right">{row.reason}</TableCell>
+                            </TableRow>
+                        )) : <p>You don't have any requests</p>}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Modal open={openDetails} onClose={() => setOpenDetails(false)}>
+                <h4>Invoice number: {seletedItem?.['invoice-number']}</h4>
+                <p><strong>Part's serial number:</strong> {seletedItem?.['part-serial-number']}</p>
+                <p><strong>Reason:</strong> {seletedItem?.reason}</p>
+                {seletedItem?.comments && <p><strong>Comments:</strong> {seletedItem.comments}</p>}
+            </Modal>
+        </>
     );
 };

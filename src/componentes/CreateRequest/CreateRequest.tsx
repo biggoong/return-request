@@ -31,11 +31,15 @@ export const CreateRequest: FC<IProps> = ({ onRefresh }) => {
     };
 
     const handleSubmitClick = useCallback(async (values: IFormValues) => {
-        const res = await postRequest(values);
+        try {
+            const res = await postRequest(values);
 
-        if (res.success) {
-            onRefresh();
-            setOpenCreateModal(false);
+            if (res.success) {
+                onRefresh();
+                setOpenCreateModal(false);
+            }
+        } catch (e) {
+            console.log(e);
         }
     }, []);
 

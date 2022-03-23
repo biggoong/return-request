@@ -1,4 +1,5 @@
-/** Consider using MUI DataGrid component for handling large amounts of tabular data. */
+/** TODO: Consider using MUI DataGrid component for handling large amounts of tabular data. */
+/** TODO: Extract details modal to other component and file */
 
 import React, { FC, useState } from 'react';
 import Table from '@mui/material/Table';
@@ -23,7 +24,6 @@ export const BasicTable: FC<IProps> = ({ data }) => {
         setSelectedItem(item);
         setOpenDetails(true);
     }
-
 
     return (
         <>
@@ -55,6 +55,7 @@ export const BasicTable: FC<IProps> = ({ data }) => {
                 </Table>
             </TableContainer>
 
+            {/* Modal with details of the request */}
             <Modal open={openDetails} onClose={() => setOpenDetails(false)}>
                 <h4>Invoice number: {seletedItem?.['invoice-number']}</h4>
                 <p><strong>Part's serial number:</strong> {seletedItem?.['part-serial-number']}</p>

@@ -1,3 +1,5 @@
+/** TODO: For Minimizing MUI bundle size visit https://mui.com/guides/minimizing-bundle-size/#option-2 */
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table } from './componentes/Table';
 import { CreateRequest, IFormValues } from './componentes/CreateRequest';

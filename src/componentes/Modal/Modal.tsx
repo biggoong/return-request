@@ -1,3 +1,5 @@
+/** TODO: use styled-components for styling or separeate css code */
+
 import React, { FC } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';

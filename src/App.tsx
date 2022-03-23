@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Table } from './componentes/Table';
+import { CreateRequest } from './componentes/CreateRequest';
+import { fetchRequests } from './api';
 import './App.css';
 
 function App() {
+  const handleFetch = async () => {
+    try {
+      await fetchRequests();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    handleFetch();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h3>Your return requests</h3>
+        <CreateRequest />
       </header>
+
+      <section>
+        <Table />
+      </section>
     </div>
   );
 }

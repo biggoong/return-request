@@ -13,8 +13,6 @@ export const handlers = [
         } else {
             data = [req.body];
         }
-        
-        console.log(req.body);
 
         saveState('requests', data);
 

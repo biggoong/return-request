@@ -39,6 +39,7 @@ export const CreateRequest: FC<IProps> = ({ onRefresh }) => {
                 setOpenCreateModal(false);
             }
         } catch (e) {
+            // TODO: change console log with proper error handle
             console.log(e);
         }
     }, []);

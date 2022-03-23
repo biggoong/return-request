@@ -15,6 +15,7 @@ function App() {
 
       setRequests(res);
     } catch (e) {
+      // TODO: change console log with proper error handle
       console.log(e);
     }
   }

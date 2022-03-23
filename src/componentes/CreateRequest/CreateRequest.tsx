@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Form, Field } from 'react-final-form'
 import { Modal } from '../Modal';
+import { postRequest } from '../../api';
 import { validateForm } from './validateForm';
 
 export interface IFormValues {
@@ -25,8 +26,12 @@ export const CreateRequest: FC = () => {
         setOpenCreateModal(!openCreateModal);
     };
 
-    const handleSubmitClick = useCallback((values: IFormValues) => {
-        console.log(values);
+    const handleSubmitClick = useCallback(async (values: IFormValues) => {
+        const res = await postRequest(values);
+
+        if (res.success) {
+            setOpenCreateModal(false);
+        }
     }, []);
 
     return (

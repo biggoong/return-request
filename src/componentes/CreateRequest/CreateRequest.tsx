@@ -19,7 +19,11 @@ export interface IFormValues {
     comments?: string;
 }
 
-export const CreateRequest: FC = () => {
+interface IProps {
+    onRefresh: () => {};
+}
+
+export const CreateRequest: FC<IProps> = ({ onRefresh }) => {
     const [openCreateModal, setOpenCreateModal] = useState(true);
 
     const toggleOpenCreateModal = () => {
@@ -30,6 +34,7 @@ export const CreateRequest: FC = () => {
         const res = await postRequest(values);
 
         if (res.success) {
+            onRefresh();
             setOpenCreateModal(false);
         }
     }, []);
@@ -129,7 +134,7 @@ export const CreateRequest: FC = () => {
                             </Field>
 
                             <div className='button-container'>
-                                <Button variant="outlined">Cancel</Button>
+                                <Button variant="outlined" onClick={toggleOpenCreateModal}>Cancel</Button>
                                 <Button variant="contained" type="submit">Submit</Button>
                             </div>
                         </form>

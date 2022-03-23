@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Table } from './componentes/Table';
-import { CreateRequest } from './componentes/CreateRequest';
+import { CreateRequest, IFormValues } from './componentes/CreateRequest';
 import { fetchRequests } from './api';
 import './App.css';
 
 function App() {
+  const [requests, setRequests] = useState<IFormValues[]>();
+
   const handleFetch = async () => {
     try {
-      await fetchRequests();
+      const res = await fetchRequests();
+
+      setRequests(res);
     } catch (e) {
       console.log(e);
     }
@@ -21,11 +25,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h3>Your return requests</h3>
-        <CreateRequest />
+        <CreateRequest onRefresh={handleFetch}/>
       </header>
 
       <section>
-        <Table />
+        <Table data={requests}/>
       </section>
     </div>
   );
